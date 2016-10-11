@@ -1,0 +1,45 @@
+web:
+  image: gowthamgts/web
+  ports:
+    - "80:80"
+app:
+  image: gowthamgts/app
+  links:
+    - postgres
+  ports:
+    - "3000:3000"
+  environment:
+    RAILS_ENV: production
+    DB_HOST: postgres
+    DB_PORT: 5432
+    DB_ADAPTER: postgresql
+    DB_DATABASE: todo
+    DB_UN: tododbuser
+    DB_PW: password
+    SECRET_KEY_BASE: 5bff7fcec12173ba43c35cbc2784391038c23a9f9202f325b45b9033682809e134c1bf140888c045240c16c5e2943fe1dfeeffecba6bc877f0317a2481f641a1
+  command: bash -c "bundle exec rake db:create"
+  command: bash -c "bundle exec rake db:migrate"
+# mysql:
+#   image: mysql
+#   environment:
+#     MYSQL_ROOT_PASSWORD: rootpassword
+#     MYSQL_DATABASE: todo
+#     MYSQL_USER: tododbuser
+#     MYSQL_PASSWORD: password
+#   volumes:
+#     - "./.data/db:/var/lib/mysql"
+#   restart: always
+#   ports:
+#     - "3306:3306"
+postgres:
+  restart: always
+  image: macadmins/postgres
+  environment:
+    POSTGRES_USER: tododbuser
+    POSTGRES_PASSWORD: password
+  expose:
+    - 5432
+  ports:
+    - "5432:5432"
+  volumes:
+    - "./.data/db:/var/lib/postgresql/data"
