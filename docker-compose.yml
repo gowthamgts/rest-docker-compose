@@ -14,15 +14,20 @@ app:
     - "3000:3000"
   environment:
     RAILS_ENV: production
+    DB_NAME: todo
     DB_HOST: mysql
     DB_PORT: 3306
-    DB_PW: rootpassword
+    DB_UN: tododbuser
+    DB_PW: tododbpassword
     SECRET_KEY_BASE: 5bff7fcec12173ba43c35cbc2784391038c23a9f9202f325b45b9033682809e134c1bf140888c045240c16c5e2943fe1dfeeffecba6bc877f0317a2481f641a1
 
 mysql:
   image: mysql
   environment:
     MYSQL_ROOT_PASSWORD: rootpassword
+    MYSQL_DATABASE: todo
+    MYSQL_USER: tododbuser
+    MYSQL_PASSWORD: tododbpassword
   volumes:
     - "./.data:/var/lib/mysql"
   restart: always
